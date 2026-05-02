@@ -1,98 +1,133 @@
-# \# Editing this README
+# DragoEngine
 
-# 
+DragoEngine is a lightweight, cross-platform 2D game engine written in C++ with support for Windows, Linux, and macOS.
 
-# When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to \[makeareadme.com](https://www.makeareadme.com/) for this template.
+The engine uses SDL2 for windowing, rendering, input, audio, and text rendering, Box2D for 2D physics simulation, Lua and LuaBridge for gameplay scripting, and RapidJSON for scene/configuration loading. Gameplay behavior is defined through Lua components, allowing users to create actors, control scenes, handle input, render images/text, play audio, manipulate physics, and define game logic without recompiling the C++ engine.
 
-# 
+DragoEngine also includes custom editor and workflow features beyond the base engine requirements. A Dear ImGui-powered editor interface allows users to construct games and write scripts from within the engine environment. CMake support was added for cross-platform builds on Windows and Linux, improving portability outside IDE-specific workflows. The engine also includes a shadow-main autosave system that preserves progress while edits are pending, helping prevent work loss before changes are merged.
 
-# \## Suggestions for a good README
+### Features
 
-# 
+- Cross-platform 2D engine written in modern C++
+- SDL2-based rendering, input, audio, text, and window management
+- Lua scripting support for externalized gameplay logic
+- Component-based actor system with lifecycle methods such as `OnStart`, `OnUpdate`, and `OnLateUpdate`
+- Box2D-powered Rigidbody physics and collision support
+- Scene loading, actor instantiation, destruction, and persistence APIs
+- Data-driven configuration using JSON scene and resource files
+- Runtime scripting APIs for input, audio, images, text, camera, scene management, and application control
+- Data-oriented particle system for efficient visual effects
+- Dear ImGui editor tooling for in-engine game construction and scripting
+- CMake build support for Windows and Linux
+- Shadow-main autosave workflow to preserve user progress during edits
 
-# Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+# Installation
 
-# 
+### Requirements
 
-# \## Name
+- A C++17-capable compiler
+- CMake 3.10 or newer
+- A checked out copy of this repository, including the `resources/` folder
+- One of these supported environments:
+  - Windows 10 or 11 with Visual Studio 2022 (or the Visual Studio 2022 Build Tools) and the Desktop development with C++ workload
+  - Linux with `pkg-config`, `SDL2`, `SDL2_image`, `SDL2_mixer`, and `SDL2_ttf` development packages installed
 
-# Choose a self-explaining name for your project.
+This repository already includes the project source plus vendored `Lua`, `Box2D`, `ImGui`, and the Windows SDL import libraries/runtime DLLs, so you do not need to install those separately.
 
-# 
+### Windows
 
-# \## Description
+1. Install Visual Studio 2022 and make sure the Desktop development with C++ workload is selected.
+2. Open a terminal in the repository root.
+3. Configure the project:
 
-# Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```bash
+cmake -S . -B build-windows -G "Visual Studio 17 2022" -A x64
+```
 
-# 
+4. Build the Release version:
 
-# \## Badges
+```bash
+cmake --build build-windows --config Release
+```
 
-# On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+5. Run the executable:
 
-# 
+```bash
+build-windows/Release/game_engine_dragoiuc.exe
+```
 
-# \## Visuals
+If you want a portable release folder instead of just a local build, run:
 
-# Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```bash
+cmake --install build-windows --config Release --prefix dist/finalGame-windows
+```
 
-# 
+### Linux
 
-# \## Installation
+On Ubuntu or Debian, install the required tools and SDL development packages with:
 
-# Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+```bash
+sudo apt update
+sudo apt install build-essential cmake pkg-config libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+```
 
-# 
+Then, from the repository root:
 
-# \## Usage
+1. Configure the project:
 
-# Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+```bash
+cmake -S . -B build-linux
+```
 
-# 
+2. Build it:
 
-# \## Support
+```bash
+cmake --build build-linux -j
+```
 
-# Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+3. Launch the engine from the repository root:
 
-# 
+```bash
+./build-linux/game_engine_dragoiuc
+```
 
-# \## Roadmap
+The engine looks for game content in `./resources`, so keep the `resources/` directory next to the executable in packaged builds, or run the Linux binary from the repository root as shown above.
+
+### Optional Packaging Scripts
+
+- `./scripts/package_linux_release.sh` creates `dist/finalGame-linux` from an existing Linux build.
+- `./scripts/package_windows_release.sh` can build and package the Windows release from WSL if Windows CMake and Visual Studio Build Tools are installed.
+
+
+# Support
+
+## If you find a security vulnerability, do NOT open an issue. Please message supportking on Discord instead.
+
+If you have a bug, or an issue with this project, please contact me via discord at: supportking or open an issue. If opening, an issue for a bug report, please include your operating system, a description of the bug, a reproduction of the bug visually via video, and a list of steps taken to reproduce the bug.
+
+# Roadmap
 
 # If you have ideas for releases in the future, it is a good idea to list them in the README.
+ - Add GoogleTest for both regression and integration testing
+ - Add AlphaRemover, a tool that will let editors quickly iterate on AI generated pixel art
+ - Add a drag-and-drop viewport via ImGui
+ - Add CMake support for macOS
+ - Improve ImGui UI
+ - Add Badges to the GitHub Repo
 
 # 
 
-# \## Contributing
+# Contributing -- Currently accepting contributions.
 
-# State if you are open to contributions and what your requirements are for accepting them.
+As the project is still in it's infancy, and doesn't have testing added yet, the contribution process is relatively informal. Please include a description of what you changed and why you made those specific changes. When testing is added, please include a regression test.
 
-# 
+# Authors and acknowledgment
 
-# For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Reserved for those who have contributed to the project.
+ 
+# This Project uses a zLib License
+## Badges -- WIP
 
-# 
-
-# You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-# 
-
-# \## Authors and acknowledgment
-
-# Show your appreciation to those who have contributed to the project.
-
-# 
-
-# \## License
-
-# For open source projects, say how it is licensed.
-
-# 
-
-# \## Project status
-
-# If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
-# 
-
-# 
+# Project status
+I'm focusing my energy into AlphaRemover, a seperate repository I intend to become a submodule within this project. This project is open to all contribution within the scope of the current road map.
 
