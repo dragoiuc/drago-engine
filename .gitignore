@@ -11,6 +11,7 @@ recorded_sdl_user_input.txt
 **.zip
 shadow_main/
 dist/
+packaging/
 
 # course executables
 game_engine_linux
@@ -150,6 +151,7 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+.codex
 
 # Visual Studio profiler
 *.psess
