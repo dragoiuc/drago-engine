@@ -126,7 +126,6 @@ As the project is still in it's infancy, and doesn't have testing added yet, the
 Reserved for those who have contributed to the project.
  
 # This Project uses a zLib License
-## Badges -- WIP
 
 # Project status
 I'm focusing my energy into AlphaRemover, a seperate repository I intend to become a submodule within this project. This project is open to all contribution within the scope of the current road map.
